@@ -33,9 +33,9 @@ function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
     return matchEvent(on.pull_request, context, 'pull_request');
   } else if (eventName === 'pull_request_target' && on.pull_request_target) {
     return matchEvent(on.pull_request_target, context, 'pull_request_target');
-  } else {
-    throw new Error(`Unsupported event: ${eventName}`);
   }
+
+  return false;
 }
 
 function matchEvent(

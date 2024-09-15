@@ -47058,9 +47058,7 @@ function shouldTriggerBuild(on, context) {
     else if (eventName === 'pull_request_target' && on.pull_request_target) {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
-    else {
-        throw new Error(`Unsupported event: ${eventName}`);
-    }
+    return false;
 }
 function matchEvent(eventConfig, context, eventType) {
     if (typeof eventConfig === 'boolean' || eventConfig === null) {
@@ -47141,13 +47139,15 @@ async function run() {
 async function getLastCommittedAt() {
     let output = '';
     let errorOutput = '';
-    const options = {};
-    options.listeners = {
-        stdout: (data) => {
-            output += data.toString();
-        },
-        stderr: (data) => {
-            errorOutput += data.toString();
+    const options = {
+        silent: true,
+        listeners: {
+            stdout: (data) => {
+                output += data.toString();
+            },
+            stderr: (data) => {
+                errorOutput += data.toString();
+            },
         },
     };
     await (0, exec_1.exec)('git', ['show', '-s', '--format=%ct'], options);

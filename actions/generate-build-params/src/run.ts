@@ -27,13 +27,15 @@ async function getLastCommittedAt(): Promise<number> {
   let output = '';
   let errorOutput = '';
 
-  const options: ExecOptions = {};
-  options.listeners = {
-    stdout: (data: Buffer) => {
-      output += data.toString();
-    },
-    stderr: (data: Buffer) => {
-      errorOutput += data.toString();
+  const options: ExecOptions = {
+    silent: true,
+    listeners: {
+      stdout: (data: Buffer) => {
+        output += data.toString();
+      },
+      stderr: (data: Buffer) => {
+        errorOutput += data.toString();
+      },
     },
   };
 
