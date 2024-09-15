@@ -95,15 +95,12 @@ export type LocalConfig = z.infer<typeof LocalConfigSchema> & {
 
 export function loadGlobalConfig(filePath: string): GlobalConfig {
   const data = load(readFileSync(filePath, 'utf8'));
-  console.log('Global Config Data');
-  console.log(JSON.stringify(data));
   return GlobalConfigSchema.parse(data);
 }
 
 export function loadLocalConfigs(rootDir: string): LocalConfig[] {
   const files = globSync('**/mobb.yaml', { cwd: rootDir });
-  console.log('Local Config Files');
-  console.log(JSON.stringify(files));
+
   return files.map(file => {
     const appName = normalize(dirname(file));
     const path = normalize(join(rootDir, dirname(file)));
@@ -118,7 +115,5 @@ export function loadLocalConfigs(rootDir: string): LocalConfig[] {
 
 function loadLocalConfig(filePath: string) {
   const data = load(readFileSync(filePath, 'utf8'));
-  console.log('Local Config Data');
-  console.log(JSON.stringify(data));
   return LocalConfigSchema.parse(data);
 }

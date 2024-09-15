@@ -1,0 +1,32 @@
+build:
+  docker:
+    identities:
+      stg-pr:
+        aws:
+          iam-role: arn:aws:iam::615299752259:role/mobb-builder-pr
+          region: ap-northeast-1
+      stg-main:
+        aws:
+          iam-role: arn:aws:iam::615299752259:role/mobb-builder-main
+          region: ap-northeast-1
+      prd:
+        aws:
+          iam-role: arn:aws:iam::920373013500:role/mobb-builder
+          region: ap-northeast-1
+
+    registries:
+      stg-pr:
+        aws:
+          identity: stg-pr
+          region: ap-northeast-1
+          repository-base: 615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb-pr
+      stg-main:
+        aws:
+          identity: stg-main
+          region: ap-northeast-1
+          repository-base: 615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb
+      prd:
+        aws:
+          identity: prd
+          region: ap-northeast-1
+          repository-base: 920373013500.dkr.ecr.ap-northeast-1.amazonaws.com/mobb

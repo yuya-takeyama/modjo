@@ -54,21 +54,22 @@ export function generateBuildParams(
 
   for (const config of localConfigs) {
     for (const build of config.build) {
-      const identity = globalConfig.identities[build.docker!.identity];
-      if (!identity) {
-        throw new Error(`Identity not found: ${build.docker!.identity}`);
+      const registry =
+        globalConfig.build.docker.registries![build.docker?.registry!];
+      if (!registry) {
+        throw new Error(`Registry not found: ${build.docker?.registry}`);
       }
 
-      const registry = globalConfig.registries![build.docker!.registry];
-      if (!registry) {
-        throw new Error(`Registry not found: ${build.docker!.registry}`);
+      const identity =
+        globalConfig.build.docker.identities[registry.aws.identity];
+      if (!identity) {
+        throw new Error(`Identity not found: ${registry.aws.identity}`);
       }
 
       const target = {
         path: config.path,
         ref: context.ref,
-        registry: build.docker!.registry,
-        identity: build.docker!.identity,
+        registry: build.docker?.registry!,
       };
 
       results.push({

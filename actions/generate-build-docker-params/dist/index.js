@@ -46891,17 +46891,18 @@ function generateBuildParams(globalConfig, localConfigs, lastCommittedAt, contex
     const results = [];
     for (const config of localConfigs) {
         for (const build of config.build) {
-            const identity = globalConfig.identities[build.docker.identity];
-            if (!identity) {
-                throw new Error(`Identity not found: ${build.docker.identity}`);
-            }
-            const registry = globalConfig.registries[build.docker.registry];
+            const registry = globalConfig.build.docker.registries[build.docker?.registry];
             if (!registry) {
-                throw new Error(`Registry not found: ${build.docker.registry}`);
+                throw new Error(`Registry not found: ${build.docker?.registry}`);
+            }
+            const identity = globalConfig.build.docker.identities[registry.aws.identity];
+            if (!identity) {
+                throw new Error(`Identity not found: ${registry.aws.identity}`);
             }
             const target = {
                 path: config.path,
                 ref: context.ref,
+                registry: build.docker?.registry,
             };
             results.push({
                 target,
@@ -46955,7 +46956,6 @@ const TaggingStrategySchema = zod_1.z.enum([
 ]);
 const DockerBuildConfigSchema = zod_1.z.object({
     tagging: TaggingStrategySchema,
-    identity: zod_1.z.string(),
     registry: zod_1.z.string(),
     platforms: zod_1.z.array(zod_1.z.string()),
 });
@@ -46984,33 +46984,34 @@ const BuildConfigSchema = zod_1.z.object({
     docker: DockerBuildConfigSchema.optional(),
 });
 exports.GlobalConfigSchema = zod_1.z.object({
-    identities: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
-        aws: zod_1.z.object({
-            'iam-role': zod_1.z.string(),
-            region: zod_1.z.string(),
+    build: zod_1.z.object({
+        docker: zod_1.z.object({
+            identities: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
+                aws: zod_1.z.object({
+                    'iam-role': zod_1.z.string(),
+                    region: zod_1.z.string(),
+                }),
+            })),
+            registries: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
+                aws: zod_1.z.object({
+                    identity: zod_1.z.string(),
+                    type: zod_1.z.enum(['private', 'public']).default('private').optional(),
+                    region: zod_1.z.string(),
+                    'repository-base': zod_1.z.string(),
+                }),
+            })),
         }),
-    })),
-    registries: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
-        aws: zod_1.z.object({
-            type: zod_1.z.enum(['private', 'public']).default('private').optional(),
-            region: zod_1.z.string(),
-            'repository-base': zod_1.z.string(),
-        }),
-    })),
+    }),
 });
 exports.LocalConfigSchema = zod_1.z.object({
     build: zod_1.z.array(BuildConfigSchema),
 });
 function loadGlobalConfig(filePath) {
     const data = (0, js_yaml_1.load)((0, node_fs_1.readFileSync)(filePath, 'utf8'));
-    console.log('Global Config Data');
-    console.log(JSON.stringify(data));
     return exports.GlobalConfigSchema.parse(data);
 }
 function loadLocalConfigs(rootDir) {
     const files = (0, glob_1.globSync)('**/mobb.yaml', { cwd: rootDir });
-    console.log('Local Config Files');
-    console.log(JSON.stringify(files));
     return files.map(file => {
         const appName = (0, path_1.normalize)((0, path_1.dirname)(file));
         const path = (0, path_1.normalize)((0, path_1.join)(rootDir, (0, path_1.dirname)(file)));
@@ -47024,8 +47025,6 @@ function loadLocalConfigs(rootDir) {
 }
 function loadLocalConfig(filePath) {
     const data = (0, js_yaml_1.load)((0, node_fs_1.readFileSync)(filePath, 'utf8'));
-    console.log('Local Config Data');
-    console.log(JSON.stringify(data));
     return exports.LocalConfigSchema.parse(data);
 }
 
