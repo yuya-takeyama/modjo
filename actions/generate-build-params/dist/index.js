@@ -46990,7 +46990,7 @@ exports.GlobalConfigSchema = zod_1.z.object({
     })),
     registries: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
         aws: zod_1.z.object({
-            type: zod_1.z.enum(['private', 'public']).default('private'),
+            type: zod_1.z.enum(['private', 'public']).default('private').optional(),
             region: zod_1.z.string(),
             'repository-base': zod_1.z.string(),
         }),
