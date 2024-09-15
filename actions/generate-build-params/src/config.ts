@@ -90,6 +90,8 @@ export type LocalConfig = z.infer<typeof LocalConfigSchema> & {
 
 export function loadGlobalConfig(filePath: string): GlobalConfig {
   const data = load(filePath);
+  console.log('Global Config Data');
+  console.log(JSON.stringify(data));
   return GlobalConfigSchema.parse(data);
 }
 
