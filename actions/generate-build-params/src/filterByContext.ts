@@ -27,6 +27,8 @@ export function filterByContext(
 function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
   const eventName = context.eventName;
 
+  console.log('shouldTriggerBuild', JSON.stringify({ eventName, on }));
+
   if (eventName === 'push' && on.push) {
     return matchEvent(on.push, context, 'push');
   } else if (eventName === 'pull_request' && on.pull_request) {
@@ -34,6 +36,8 @@ function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
   } else if (eventName === 'pull_request_target' && on.pull_request_target) {
     return matchEvent(on.pull_request_target, context, 'pull_request_target');
   }
+
+  console.log('No match in shouldTriggerBuild');
 
   return false;
 }
@@ -43,7 +47,9 @@ function matchEvent(
   context: Context,
   eventType: 'push' | 'pull_request' | 'pull_request_target',
 ): boolean {
-  if (typeof eventConfig === 'boolean' || eventConfig === null) {
+  console.log('matchEvent', JSON.stringify({ eventConfig, context }));
+
+  if (typeof eventConfig || eventConfig === null) {
     return true;
   }
 

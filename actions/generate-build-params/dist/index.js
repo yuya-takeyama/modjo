@@ -47053,6 +47053,7 @@ function filterByContext(configs, context) {
 }
 function shouldTriggerBuild(on, context) {
     const eventName = context.eventName;
+    console.log('shouldTriggerBuild', JSON.stringify({ eventName, on }));
     if (eventName === 'push' && on.push) {
         return matchEvent(on.push, context, 'push');
     }
@@ -47062,10 +47063,12 @@ function shouldTriggerBuild(on, context) {
     else if (eventName === 'pull_request_target' && on.pull_request_target) {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
+    console.log('No match in shouldTriggerBuild');
     return false;
 }
 function matchEvent(eventConfig, context, eventType) {
-    if (typeof eventConfig === 'boolean' || eventConfig === null) {
+    console.log('matchEvent', JSON.stringify({ eventConfig, context }));
+    if (typeof eventConfig || eventConfig === null) {
         return true;
     }
     const ref = context.ref; // example: 'refs/heads/main' or 'refs/tags/v1.0.0'
