@@ -46874,7 +46874,6 @@ const BuildParamsDockerSchema = zod_1.z.object({
     tags: zod_1.z.array(zod_1.z.string()),
     platforms: zod_1.z.array(zod_1.z.string()),
     identity: IdentitySchema,
-    registry: RegistrySchema,
 });
 const TargetSchema = zod_1.z
     .object({
@@ -46913,10 +46912,9 @@ function generateBuildParams(globalConfig, localConfigs, lastCommittedAt, contex
                 value: {
                     docker: {
                         context: config.path,
-                        tags: (0, tagging_1.generateTags)((0, path_1.join)(registry.aws.repository, config.appName), build.docker.tagging, context, lastCommittedAt, datetimeTagTimeZone),
+                        tags: (0, tagging_1.generateTags)((0, path_1.join)(registry.aws['repository-base'], config.appName), build.docker.tagging, context, lastCommittedAt, datetimeTagTimeZone),
                         platforms: build.docker.platforms,
                         identity,
-                        registry,
                     },
                 },
             });
@@ -46992,9 +46990,9 @@ exports.GlobalConfigSchema = zod_1.z.object({
     })),
     registries: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
         aws: zod_1.z.object({
-            type: zod_1.z.enum(['private', 'public']),
+            type: zod_1.z.enum(['private', 'public']).default('private'),
             region: zod_1.z.string(),
-            repository: zod_1.z.string(),
+            'repository-base': zod_1.z.string(),
         }),
     })),
 });

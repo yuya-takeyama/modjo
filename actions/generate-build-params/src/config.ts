@@ -69,9 +69,9 @@ export const GlobalConfigSchema = z.object({
     z.string(),
     z.object({
       aws: z.object({
-        type: z.enum(['private', 'public']),
+        type: z.enum(['private', 'public']).default('private'),
         region: z.string(),
-        repository: z.string(),
+        'repository-base': z.string(),
       }),
     }),
   ),

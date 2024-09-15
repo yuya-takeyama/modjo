@@ -24,7 +24,6 @@ const BuildParamsDockerSchema = z.object({
   tags: z.array(z.string()),
   platforms: z.array(z.string()),
   identity: IdentitySchema,
-  registry: RegistrySchema,
 });
 
 const TargetSchema = z
@@ -81,7 +80,7 @@ export function generateBuildParams(
           docker: {
             context: config.path,
             tags: generateTags(
-              join(registry.aws.repository, config.appName),
+              join(registry.aws['repository-base'], config.appName),
               build.docker.tagging,
               context,
               lastCommittedAt,
@@ -89,7 +88,6 @@ export function generateBuildParams(
             ),
             platforms: build.docker.platforms,
             identity,
-            registry,
           },
         },
       });
