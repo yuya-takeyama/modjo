@@ -59,7 +59,7 @@ export function generateBuildParams(
         throw new Error(`Identity not found: ${build.docker!.identity}`);
       }
 
-      const registry = globalConfig.registries[build.docker!.registry];
+      const registry = globalConfig.registries![build.docker!.registry];
       if (!registry) {
         throw new Error(`Registry not found: ${build.docker!.registry}`);
       }
@@ -67,6 +67,8 @@ export function generateBuildParams(
       const target = {
         path: config.path,
         ref: context.ref,
+        registry: build.docker!.registry,
+        identity: build.docker!.identity,
       };
 
       results.push({

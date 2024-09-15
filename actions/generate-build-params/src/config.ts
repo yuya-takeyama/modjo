@@ -14,7 +14,6 @@ export type TaggingStrategy = z.infer<typeof TaggingStrategySchema>;
 
 const DockerBuildConfigSchema = z.object({
   tagging: TaggingStrategySchema,
-  identity: z.string(),
   registry: z.string(),
   platforms: z.array(z.string()),
 });
@@ -57,25 +56,30 @@ const BuildConfigSchema = z.object({
 });
 
 export const GlobalConfigSchema = z.object({
-  identities: z.record(
-    z.string(),
-    z.object({
-      aws: z.object({
-        'iam-role': z.string(),
-        region: z.string(),
-      }),
+  build: z.object({
+    docker: z.object({
+      identities: z.record(
+        z.string(),
+        z.object({
+          aws: z.object({
+            'iam-role': z.string(),
+            region: z.string(),
+          }),
+        }),
+      ),
+      registries: z.record(
+        z.string(),
+        z.object({
+          aws: z.object({
+            identity: z.string(),
+            type: z.enum(['private', 'public']).default('private').optional(),
+            region: z.string(),
+            'repository-base': z.string(),
+          }),
+        }),
+      ),
     }),
-  ),
-  registries: z.record(
-    z.string(),
-    z.object({
-      aws: z.object({
-        type: z.enum(['private', 'public']).default('private').optional(),
-        region: z.string(),
-        'repository-base': z.string(),
-      }),
-    }),
-  ),
+  }),
 });
 
 export type GlobalConfig = z.infer<typeof GlobalConfigSchema>;
