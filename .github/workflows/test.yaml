@@ -3,12 +3,14 @@ name: test
 on:
   pull_request:
     paths:
+      - '.github/workflows/test.yaml'
       - 'actions/**/*.ts'
       - 'packages/**/*.ts'
   push:
     branches:
       - main
     paths:
+      - '.github/workflows/test.yaml'
       - 'actions/**/*.ts'
       - 'packages/**/*.ts'
 
