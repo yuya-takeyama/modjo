@@ -47046,6 +47046,9 @@ function filterByContext(configs, context) {
 }
 function shouldTriggerBuild(on, context) {
     const eventName = context.eventName;
+    if (['push', 'pull_request', 'pull_request_target'].indexOf(eventName) === -1) {
+        throw new Error(`Unsupported event type: ${eventName}`);
+    }
     if (eventName === 'push' && on.hasOwnProperty('push')) {
         return matchEvent(on.push, context, 'push');
     }
@@ -47057,7 +47060,7 @@ function shouldTriggerBuild(on, context) {
         on.hasOwnProperty('pull_request_target')) {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
-    throw new Error(`Unsupported event type: ${eventName}`);
+    return false;
 }
 function matchEvent(eventConfig, context, eventType) {
     if (eventConfig === true || eventConfig === null) {

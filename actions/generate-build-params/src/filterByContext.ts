@@ -27,6 +27,12 @@ export function filterByContext(
 function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
   const eventName = context.eventName;
 
+  if (
+    ['push', 'pull_request', 'pull_request_target'].indexOf(eventName) === -1
+  ) {
+    throw new Error(`Unsupported event type: ${eventName}`);
+  }
+
   if (eventName === 'push' && on.hasOwnProperty('push')) {
     return matchEvent(on.push, context, 'push');
   } else if (
@@ -41,7 +47,7 @@ function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
     return matchEvent(on.pull_request_target, context, 'pull_request_target');
   }
 
-  throw new Error(`Unsupported event type: ${eventName}`);
+  return false;
 }
 
 function matchEvent(
