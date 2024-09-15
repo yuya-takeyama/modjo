@@ -46943,6 +46943,7 @@ exports.LocalConfigSchema = exports.GlobalConfigSchema = void 0;
 exports.loadGlobalConfig = loadGlobalConfig;
 exports.loadLocalConfigs = loadLocalConfigs;
 const zod_1 = __nccwpck_require__(6762);
+const node_fs_1 = __nccwpck_require__(7561);
 const js_yaml_1 = __nccwpck_require__(6264);
 const glob_1 = __nccwpck_require__(8743);
 const path_1 = __nccwpck_require__(1017);
@@ -47000,7 +47001,7 @@ exports.LocalConfigSchema = zod_1.z.object({
     build: zod_1.z.array(BuildConfigSchema),
 });
 function loadGlobalConfig(filePath) {
-    const data = (0, js_yaml_1.load)(filePath);
+    const data = (0, js_yaml_1.load)((0, node_fs_1.readFileSync)(filePath, 'utf8'));
     console.log('Global Config Data');
     console.log(JSON.stringify(data));
     return exports.GlobalConfigSchema.parse(data);
@@ -47018,7 +47019,7 @@ function loadLocalConfigs(rootDir) {
     });
 }
 function loadLocalConfig(filePath) {
-    const data = (0, js_yaml_1.load)(filePath);
+    const data = (0, js_yaml_1.load)((0, node_fs_1.readFileSync)(filePath, 'utf8'));
     return exports.LocalConfigSchema.parse(data);
 }
 

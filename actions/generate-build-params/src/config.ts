@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { readFileSync } from 'node:fs';
 import { load } from 'js-yaml';
 import { globSync } from 'glob';
 import { dirname, join, normalize } from 'path';
@@ -89,7 +90,7 @@ export type LocalConfig = z.infer<typeof LocalConfigSchema> & {
 };
 
 export function loadGlobalConfig(filePath: string): GlobalConfig {
-  const data = load(filePath);
+  const data = load(readFileSync(filePath, 'utf8'));
   console.log('Global Config Data');
   console.log(JSON.stringify(data));
   return GlobalConfigSchema.parse(data);
@@ -109,6 +110,6 @@ export function loadLocalConfigs(rootDir: string): LocalConfig[] {
 }
 
 function loadLocalConfig(filePath: string) {
-  const data = load(filePath);
+  const data = load(readFileSync(filePath, 'utf8'));
   return LocalConfigSchema.parse(data);
 }
