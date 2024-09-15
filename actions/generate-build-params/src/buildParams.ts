@@ -49,14 +49,14 @@ export function generateBuildParams(
 
   for (const config of localConfigs) {
     for (const build of config.build) {
-      const identity = globalConfig.identities[build.docker.identity];
+      const identity = globalConfig.identities[build.docker!.identity];
       if (!identity) {
-        throw new Error(`Identity not found: ${build.docker.identity}`);
+        throw new Error(`Identity not found: ${build.docker!.identity}`);
       }
 
-      const registry = globalConfig.registries[build.docker.registry];
+      const registry = globalConfig.registries[build.docker!.registry];
       if (!registry) {
-        throw new Error(`Registry not found: ${build.docker.registry}`);
+        throw new Error(`Registry not found: ${build.docker!.registry}`);
       }
 
       const target = {
@@ -73,12 +73,12 @@ export function generateBuildParams(
             context: config.path,
             tags: generateTags(
               join(registry.aws['repository-base'], config.appName),
-              build.docker.tagging,
+              build.docker!.tagging,
               context,
               lastCommittedAt,
               datetimeTagTimeZone,
             ),
-            platforms: build.docker.platforms,
+            platforms: build.docker!.platforms,
             identity,
           },
         },

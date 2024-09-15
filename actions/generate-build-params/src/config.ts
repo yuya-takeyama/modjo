@@ -53,7 +53,7 @@ export type TriggerRule = z.infer<typeof TriggerRuleSchema>;
 
 const BuildConfigSchema = z.object({
   on: TriggerRuleSchema,
-  docker: DockerBuildConfigSchema,
+  docker: DockerBuildConfigSchema.optional(),
 });
 
 export const GlobalConfigSchema = z.object({

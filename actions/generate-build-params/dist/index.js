@@ -46973,7 +46973,7 @@ const TriggerRuleSchema = zod_1.z.object({
 });
 const BuildConfigSchema = zod_1.z.object({
     on: TriggerRuleSchema,
-    docker: DockerBuildConfigSchema,
+    docker: DockerBuildConfigSchema.optional(),
 });
 exports.GlobalConfigSchema = zod_1.z.object({
     identities: zod_1.z.record(zod_1.z.string(), zod_1.z.object({
@@ -47046,19 +47046,21 @@ function filterByContext(configs, context) {
 }
 function shouldTriggerBuild(on, context) {
     const eventName = context.eventName;
-    if (eventName === 'push') {
+    if (eventName === 'push' && on.hasOwnProperty('push')) {
         return matchEvent(on.push, context, 'push');
     }
-    else if (eventName === 'pull_request') {
+    else if (eventName === 'pull_request' &&
+        on.hasOwnProperty('pull_request')) {
         return matchEvent(on.pull_request, context, 'pull_request');
     }
-    else if (eventName === 'pull_request_target') {
+    else if (eventName === 'pull_request_target' &&
+        on.hasOwnProperty('pull_request_target')) {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
-    return false;
+    throw new Error(`Unsupported event type: ${eventName}`);
 }
 function matchEvent(eventConfig, context, eventType) {
-    if (typeof eventConfig || eventConfig === null) {
+    if (eventConfig === true || eventConfig === null) {
         return true;
     }
     const ref = context.ref; // example: 'refs/heads/main' or 'refs/tags/v1.0.0'

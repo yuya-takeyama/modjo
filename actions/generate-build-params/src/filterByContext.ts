@@ -27,15 +27,21 @@ export function filterByContext(
 function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
   const eventName = context.eventName;
 
-  if (eventName === 'push') {
+  if (eventName === 'push' && on.hasOwnProperty('push')) {
     return matchEvent(on.push, context, 'push');
-  } else if (eventName === 'pull_request') {
+  } else if (
+    eventName === 'pull_request' &&
+    on.hasOwnProperty('pull_request')
+  ) {
     return matchEvent(on.pull_request, context, 'pull_request');
-  } else if (eventName === 'pull_request_target') {
+  } else if (
+    eventName === 'pull_request_target' &&
+    on.hasOwnProperty('pull_request_target')
+  ) {
     return matchEvent(on.pull_request_target, context, 'pull_request_target');
   }
 
-  return false;
+  throw new Error(`Unsupported event type: ${eventName}`);
 }
 
 function matchEvent(
@@ -43,7 +49,7 @@ function matchEvent(
   context: Context,
   eventType: 'push' | 'pull_request' | 'pull_request_target',
 ): boolean {
-  if (typeof eventConfig || eventConfig === null) {
+  if (eventConfig === true || eventConfig === null) {
     return true;
   }
 
