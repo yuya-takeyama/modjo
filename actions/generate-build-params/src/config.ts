@@ -114,5 +114,7 @@ export function loadLocalConfigs(rootDir: string): LocalConfig[] {
 
 function loadLocalConfig(filePath: string) {
   const data = load(readFileSync(filePath, 'utf8'));
+  console.log('Local Config Data');
+  console.log(JSON.stringify(data));
   return LocalConfigSchema.parse(data);
 }

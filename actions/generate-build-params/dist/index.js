@@ -47023,6 +47023,8 @@ function loadLocalConfigs(rootDir) {
 }
 function loadLocalConfig(filePath) {
     const data = (0, js_yaml_1.load)((0, node_fs_1.readFileSync)(filePath, 'utf8'));
+    console.log('Local Config Data');
+    console.log(JSON.stringify(data));
     return exports.LocalConfigSchema.parse(data);
 }
 
