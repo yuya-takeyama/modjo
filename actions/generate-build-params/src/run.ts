@@ -8,7 +8,7 @@ import { loadGlobalConfig, loadLocalConfigs } from './config';
 export async function run() {
   const rootDir = getInput('root-dir');
   const globalConfigFile = getInput('global-config-file');
-  const datetimeTagTimeZone = getInput('datetime-tag-timezone') || 'UTC';
+  const datetimeTagTimeZone = getInput('datetime-tag-timezone');
   const globalConfig = loadGlobalConfig(globalConfigFile);
   const lastCommittedAt = await getLastCommittedAt();
   const allLocalConfigs = loadLocalConfigs(rootDir);

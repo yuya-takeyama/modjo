@@ -1,0 +1,23 @@
+name: 'Generate Build Params'
+description: 'Generate build parameters for build matrix'
+author: 'Yuya Takeyama'
+
+inputs:
+  root-dir:
+    description: 'Root directory'
+    required: true
+  global-config-file:
+    description: 'Global configuration file'
+    required: true
+  datetime-tag-timezone:
+    description: 'Timezone for datetime tag'
+    required: false
+    default: 'UTC'
+
+outputs:
+  build-params:
+    description: 'Build parameters'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

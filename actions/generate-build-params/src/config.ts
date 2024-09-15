@@ -84,7 +84,7 @@ export const LocalConfigSchema = z.object({
 });
 
 export type LocalConfig = z.infer<typeof LocalConfigSchema> & {
-  name: string;
+  appName: string;
   path: string;
 };
 
@@ -96,10 +96,10 @@ export function loadGlobalConfig(filePath: string): GlobalConfig {
 export function loadLocalConfigs(rootDir: string): LocalConfig[] {
   const files = globSync('**/mobb.yaml', { cwd: rootDir });
   return files.map(file => {
-    const name = normalize(dirname(file));
+    const appName = normalize(dirname(file));
     const path = normalize(join(rootDir, dirname(file)));
     return {
-      name,
+      appName,
       path,
       ...loadLocalConfig(file),
     };

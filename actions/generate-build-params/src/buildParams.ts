@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { Context } from '@actions/github/lib/context';
 import { generateTags } from './tagging';
 import { GlobalConfig, LocalConfig } from './config';
+import { join } from 'path';
 
 const IdentitySchema = z.object({
   aws: z.object({
@@ -26,13 +27,17 @@ const BuildParamsDockerSchema = z.object({
   registry: RegistrySchema,
 });
 
+const TargetSchema = z
+  .object({
+    path: z.string(),
+    ref: z.string(),
+  })
+  .and(z.record(z.string(), z.string()));
+
+type Target = z.infer<typeof TargetSchema>;
+
 export const BuildParamsSchema = z.object({
-  target: z
-    .object({
-      path: z.string(),
-      ref: z.string(),
-    })
-    .and(z.record(z.string(), z.string())),
+  target: TargetSchema,
   'last-committed-at': z.number(),
   label: z.string(),
   value: z.object({
@@ -63,17 +68,20 @@ export function generateBuildParams(
         throw new Error(`Registry not found: ${build.docker.registry}`);
       }
 
+      const target = {
+        path: config.path,
+        ref: context.ref,
+      };
+
       results.push({
-        target: {
-          path: config.path,
-          ref: context.ref,
-        },
-        label: 'hoge',
+        target,
+        label: generateLabel(config.appName, target),
         'last-committed-at': lastCommittedAt,
         value: {
           docker: {
             context: config.path,
             tags: generateTags(
+              join(registry.aws.repository, config.appName),
               build.docker.tagging,
               context,
               lastCommittedAt,
@@ -89,4 +97,12 @@ export function generateBuildParams(
   }
 
   return results;
+}
+
+function generateLabel(appName: string, target: Target): string {
+  const targetStr = Object.keys(target)
+    .sort()
+    .map(key => `${key}:${target[key]}`)
+    .join(',');
+  return `${appName} (${targetStr})`;
 }
