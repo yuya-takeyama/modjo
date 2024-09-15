@@ -46864,8 +46864,8 @@ const IdentitySchema = zod_1.z.object({
 });
 const BuildParamsDockerSchema = zod_1.z.object({
     context: zod_1.z.string(),
-    tags: zod_1.z.array(zod_1.z.string()),
-    platforms: zod_1.z.array(zod_1.z.string()),
+    tags: zod_1.z.string(),
+    platforms: zod_1.z.string(),
     identity: IdentitySchema,
 });
 const TargetSchema = zod_1.z
@@ -46905,8 +46905,8 @@ function generateBuildParams(globalConfig, localConfigs, lastCommittedAt, contex
                 value: {
                     docker: {
                         context: config.path,
-                        tags: (0, tagging_1.generateTags)((0, path_1.join)(registry.aws['repository-base'], config.appName), build.docker.tagging, context, lastCommittedAt, datetimeTagTimeZone),
-                        platforms: build.docker.platforms,
+                        tags: (0, tagging_1.generateTags)((0, path_1.join)(registry.aws['repository-base'], config.appName), build.docker.tagging, context, lastCommittedAt, datetimeTagTimeZone).join(','),
+                        platforms: build.docker.platforms.join(','),
                         identity,
                     },
                 },

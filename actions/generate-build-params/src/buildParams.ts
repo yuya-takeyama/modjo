@@ -13,8 +13,8 @@ const IdentitySchema = z.object({
 
 const BuildParamsDockerSchema = z.object({
   context: z.string(),
-  tags: z.array(z.string()),
-  platforms: z.array(z.string()),
+  tags: z.string(),
+  platforms: z.string(),
   identity: IdentitySchema,
 });
 
@@ -77,8 +77,8 @@ export function generateBuildParams(
               context,
               lastCommittedAt,
               datetimeTagTimeZone,
-            ),
-            platforms: build.docker!.platforms,
+            ).join(','),
+            platforms: build.docker!.platforms.join(','),
             identity,
           },
         },
