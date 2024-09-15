@@ -47011,10 +47011,11 @@ function loadLocalConfigs(rootDir) {
     return files.map(file => {
         const appName = (0, path_1.normalize)((0, path_1.dirname)(file));
         const path = (0, path_1.normalize)((0, path_1.join)(rootDir, (0, path_1.dirname)(file)));
+        const configFile = (0, path_1.normalize)((0, path_1.join)(rootDir, file));
         return {
             appName,
             path,
-            ...loadLocalConfig(file),
+            ...loadLocalConfig(configFile),
         };
     });
 }

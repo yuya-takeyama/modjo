@@ -101,10 +101,11 @@ export function loadLocalConfigs(rootDir: string): LocalConfig[] {
   return files.map(file => {
     const appName = normalize(dirname(file));
     const path = normalize(join(rootDir, dirname(file)));
+    const configFile = normalize(join(rootDir, file));
     return {
       appName,
       path,
-      ...loadLocalConfig(file),
+      ...loadLocalConfig(configFile),
     };
   });
 }
