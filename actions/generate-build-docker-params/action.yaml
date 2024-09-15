@@ -1,5 +1,5 @@
-name: 'Generate Build Params'
-description: 'Generate build parameters for build matrix'
+name: 'Generate Docker build params'
+description: 'Generate Docker build parameters for build matrix'
 author: 'Yuya Takeyama'
 
 inputs:
