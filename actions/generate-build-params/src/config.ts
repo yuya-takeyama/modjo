@@ -98,6 +98,8 @@ export function loadGlobalConfig(filePath: string): GlobalConfig {
 
 export function loadLocalConfigs(rootDir: string): LocalConfig[] {
   const files = globSync('**/mobb.yaml', { cwd: rootDir });
+  console.log('Local Config Files');
+  console.log(JSON.stringify(files));
   return files.map(file => {
     const appName = normalize(dirname(file));
     const path = normalize(join(rootDir, dirname(file)));
