@@ -29,11 +29,11 @@ function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
 
   console.log('shouldTriggerBuild', JSON.stringify({ eventName, on }));
 
-  if (eventName === 'push' && on.push) {
+  if (eventName === 'push') {
     return matchEvent(on.push, context, 'push');
-  } else if (eventName === 'pull_request' && on.pull_request) {
+  } else if (eventName === 'pull_request') {
     return matchEvent(on.pull_request, context, 'pull_request');
-  } else if (eventName === 'pull_request_target' && on.pull_request_target) {
+  } else if (eventName === 'pull_request_target') {
     return matchEvent(on.pull_request_target, context, 'pull_request_target');
   }
 
@@ -43,7 +43,7 @@ function shouldTriggerBuild(on: TriggerRule, context: Context): boolean {
 }
 
 function matchEvent(
-  eventConfig: boolean | null | PushEvent | PullRequestEvent,
+  eventConfig: boolean | null | undefined | PushEvent | PullRequestEvent,
   context: Context,
   eventType: 'push' | 'pull_request' | 'pull_request_target',
 ): boolean {

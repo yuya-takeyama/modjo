@@ -47054,13 +47054,13 @@ function filterByContext(configs, context) {
 function shouldTriggerBuild(on, context) {
     const eventName = context.eventName;
     console.log('shouldTriggerBuild', JSON.stringify({ eventName, on }));
-    if (eventName === 'push' && on.push) {
+    if (eventName === 'push') {
         return matchEvent(on.push, context, 'push');
     }
-    else if (eventName === 'pull_request' && on.pull_request) {
+    else if (eventName === 'pull_request') {
         return matchEvent(on.pull_request, context, 'pull_request');
     }
-    else if (eventName === 'pull_request_target' && on.pull_request_target) {
+    else if (eventName === 'pull_request_target') {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
     console.log('No match in shouldTriggerBuild');
