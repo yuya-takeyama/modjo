@@ -11,14 +11,6 @@ const IdentitySchema = z.object({
   }),
 });
 
-const RegistrySchema = z.object({
-  aws: z.object({
-    type: z.enum(['private', 'public']),
-    region: z.string(),
-    repository: z.string(),
-  }),
-});
-
 const BuildParamsDockerSchema = z.object({
   context: z.string(),
   tags: z.array(z.string()),

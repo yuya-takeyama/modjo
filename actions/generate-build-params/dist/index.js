@@ -46862,13 +46862,6 @@ const IdentitySchema = zod_1.z.object({
         region: zod_1.z.string(),
     }),
 });
-const RegistrySchema = zod_1.z.object({
-    aws: zod_1.z.object({
-        type: zod_1.z.enum(['private', 'public']),
-        region: zod_1.z.string(),
-        repository: zod_1.z.string(),
-    }),
-});
 const BuildParamsDockerSchema = zod_1.z.object({
     context: zod_1.z.string(),
     tags: zod_1.z.array(zod_1.z.string()),
@@ -47053,7 +47046,6 @@ function filterByContext(configs, context) {
 }
 function shouldTriggerBuild(on, context) {
     const eventName = context.eventName;
-    console.log('shouldTriggerBuild', JSON.stringify({ eventName, on }));
     if (eventName === 'push') {
         return matchEvent(on.push, context, 'push');
     }
@@ -47063,11 +47055,9 @@ function shouldTriggerBuild(on, context) {
     else if (eventName === 'pull_request_target') {
         return matchEvent(on.pull_request_target, context, 'pull_request_target');
     }
-    console.log('No match in shouldTriggerBuild');
     return false;
 }
 function matchEvent(eventConfig, context, eventType) {
-    console.log('matchEvent', JSON.stringify({ eventConfig, context }));
     if (typeof eventConfig || eventConfig === null) {
         return true;
     }
@@ -47140,6 +47130,8 @@ async function run() {
     const lastCommittedAt = await getLastCommittedAt();
     const allLocalConfigs = (0, config_1.loadLocalConfigs)(rootDir);
     const localConfigs = (0, filterByContext_1.filterByContext)(allLocalConfigs, github_1.context);
+    console.log('Local Configs');
+    console.log(JSON.stringify(localConfigs));
     const buildParams = (0, buildParams_1.generateBuildParams)(globalConfig, localConfigs, lastCommittedAt, github_1.context, datetimeTagTimeZone);
     (0, core_1.setOutput)('build-params', buildParams);
 }

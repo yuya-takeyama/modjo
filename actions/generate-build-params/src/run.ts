@@ -13,6 +13,8 @@ export async function run() {
   const lastCommittedAt = await getLastCommittedAt();
   const allLocalConfigs = loadLocalConfigs(rootDir);
   const localConfigs = filterByContext(allLocalConfigs, context);
+  console.log('Local Configs');
+  console.log(JSON.stringify(localConfigs));
   const buildParams = generateBuildParams(
     globalConfig,
     localConfigs,
