@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadLocalConfigs should load valid config files 1`] = `
+[
+  {
+    "appName": "hello-world",
+    "build": [
+      {
+        "docker": {
+          "platforms": [
+            "linux/amd64",
+          ],
+          "registry": "stg-pr",
+          "tagging": "pull_request",
+        },
+        "on": {
+          "pull_request": null,
+        },
+      },
+      {
+        "docker": {
+          "platforms": [
+            "linux/amd64",
+          ],
+          "registry": "stg-main",
+          "tagging": "always_latest",
+        },
+        "on": {
+          "push": {
+            "branches": [
+              "main",
+            ],
+          },
+        },
+      },
+      {
+        "docker": {
+          "platforms": [
+            "linux/amd64",
+          ],
+          "registry": "prd",
+          "tagging": "semver_datetime",
+        },
+        "on": {
+          "push": {
+            "branches": [
+              "main",
+            ],
+          },
+        },
+      },
+    ],
+    "path": "fixtures/apps/hello-world",
+  },
+]
+`;
+
+exports[`loadloadGlobalConfig should load valid config file 1`] = `
+{
+  "build": {
+    "docker": {
+      "identities": {
+        "prd": {
+          "aws": {
+            "iam-role": "arn:aws:iam::920373013500:role/mobb-builder",
+            "region": "ap-northeast-1",
+          },
+        },
+        "stg-main": {
+          "aws": {
+            "iam-role": "arn:aws:iam::615299752259:role/mobb-builder-main",
+            "region": "ap-northeast-1",
+          },
+        },
+        "stg-pr": {
+          "aws": {
+            "iam-role": "arn:aws:iam::615299752259:role/mobb-builder-pr",
+            "region": "ap-northeast-1",
+          },
+        },
+      },
+      "registries": {
+        "prd": {
+          "aws": {
+            "identity": "prd",
+            "region": "ap-northeast-1",
+            "repository-base": "920373013500.dkr.ecr.ap-northeast-1.amazonaws.com/mobb",
+          },
+        },
+        "stg-main": {
+          "aws": {
+            "identity": "stg-main",
+            "region": "ap-northeast-1",
+            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb",
+          },
+        },
+        "stg-pr": {
+          "aws": {
+            "identity": "stg-pr",
+            "region": "ap-northeast-1",
+            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb-pr",
+          },
+        },
+      },
+    },
+  },
+}
+`;

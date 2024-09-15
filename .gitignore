@@ -1,0 +1,8 @@
+coverage
+node_modules
+
+/actions/*/dist/*
+!/actions/*/dist/index.js
+!/actions/*/dist/index.js.map
+!/actions/*/dist/license.txt
+!/actions/*/dist/sourcemap-register.js

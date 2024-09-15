@@ -1,0 +1,8 @@
+{
+  "name": "mobb",
+  "private": true,
+  "workspaces": [
+    "actions/*",
+    "packages/*"
+  ]
+}
