@@ -4,15 +4,12 @@ import { generateTags } from './tagging';
 import { GlobalConfig, LocalConfig } from './config';
 import { join } from 'path';
 
-const IdentitySchema = z.object({
-  aws: z.object({
+const BuildParamsDockerAwsSchema = z.object({
+  identity: z.object({
     'iam-role': z.string(),
     region: z.string(),
   }),
-});
-
-const RegistrySchema = z.object({
-  aws: z.object({
+  registry: z.object({
     type: z.enum(['private', 'public']).default('private').optional(),
     region: z.string(),
     'repository-base': z.string(),
@@ -23,8 +20,7 @@ const BuildParamsDockerSchema = z.object({
   context: z.string(),
   tags: z.string(),
   platforms: z.string(),
-  identity: IdentitySchema,
-  registry: RegistrySchema,
+  aws: BuildParamsDockerAwsSchema,
 });
 
 const TargetSchema = z
@@ -88,8 +84,10 @@ export function generateBuildParams(
               datetimeTagTimeZone,
             ).join(','),
             platforms: build.docker!.platforms.join(','),
-            identity,
-            registry,
+            aws: {
+              identity: identity.aws,
+              registry: registry.aws,
+            },
           },
         },
       });

@@ -46856,14 +46856,12 @@ exports.generateBuildParams = generateBuildParams;
 const zod_1 = __nccwpck_require__(6762);
 const tagging_1 = __nccwpck_require__(6580);
 const path_1 = __nccwpck_require__(1017);
-const IdentitySchema = zod_1.z.object({
-    aws: zod_1.z.object({
+const BuildParamsDockerAwsSchema = zod_1.z.object({
+    identity: zod_1.z.object({
         'iam-role': zod_1.z.string(),
         region: zod_1.z.string(),
     }),
-});
-const RegistrySchema = zod_1.z.object({
-    aws: zod_1.z.object({
+    registry: zod_1.z.object({
         type: zod_1.z.enum(['private', 'public']).default('private').optional(),
         region: zod_1.z.string(),
         'repository-base': zod_1.z.string(),
@@ -46873,8 +46871,7 @@ const BuildParamsDockerSchema = zod_1.z.object({
     context: zod_1.z.string(),
     tags: zod_1.z.string(),
     platforms: zod_1.z.string(),
-    identity: IdentitySchema,
-    registry: RegistrySchema,
+    aws: BuildParamsDockerAwsSchema,
 });
 const TargetSchema = zod_1.z
     .object({
@@ -46915,8 +46912,10 @@ function generateBuildParams(globalConfig, localConfigs, lastCommittedAt, contex
                         context: config.path,
                         tags: (0, tagging_1.generateTags)((0, path_1.join)(registry.aws['repository-base'], config.appName), build.docker.tagging, context, lastCommittedAt, datetimeTagTimeZone).join(','),
                         platforms: build.docker.platforms.join(','),
-                        identity,
-                        registry,
+                        aws: {
+                            identity: identity.aws,
+                            registry: registry.aws,
+                        },
                     },
                 },
             });
