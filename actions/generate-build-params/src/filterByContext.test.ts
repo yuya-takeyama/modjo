@@ -156,7 +156,7 @@ describe('filterByContext', () => {
     expect(result).toEqual([]);
   });
 
-  it('should match pull_request event to specified branch', () => {
+  it('should match pull_request event', () => {
     const configs: LocalConfig[] = [
       {
         appName: 'app1',
@@ -173,7 +173,7 @@ describe('filterByContext', () => {
 
     const context = new Context();
     context.eventName = 'pull_request';
-    context.ref = 'refs/heads/main';
+    context.ref = 'refs/pull/1/merge';
     const result = filterByContext(configs, context);
 
     expect(result).toEqual(configs);
