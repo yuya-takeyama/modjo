@@ -4,5 +4,10 @@
   "workspaces": [
     "actions/*",
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "all": "npm run all --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
+  }
 }
