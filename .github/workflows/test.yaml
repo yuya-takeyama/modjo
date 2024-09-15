@@ -2,9 +2,15 @@ name: test
 
 on:
   pull_request:
+    paths:
+      - 'actions/**/*.ts'
+      - 'packages/**/*.ts'
   push:
     branches:
       - main
+    paths:
+      - 'actions/**/*.ts'
+      - 'packages/**/*.ts'
 
 jobs:
   test:
