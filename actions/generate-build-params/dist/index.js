@@ -47001,6 +47001,8 @@ exports.LocalConfigSchema = zod_1.z.object({
 });
 function loadGlobalConfig(filePath) {
     const data = (0, js_yaml_1.load)(filePath);
+    console.log('Global Config Data');
+    console.log(JSON.stringify(data));
     return exports.GlobalConfigSchema.parse(data);
 }
 function loadLocalConfigs(rootDir) {
