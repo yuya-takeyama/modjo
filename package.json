@@ -8,6 +8,7 @@
   "scripts": {
     "all": "npm run all --workspaces",
     "build": "npm run build --workspaces",
+    "package": "npm run package --workspaces",
     "test": "npm run test --workspaces"
   }
 }

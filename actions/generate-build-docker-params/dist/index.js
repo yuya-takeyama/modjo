@@ -47185,7 +47185,7 @@ function generateTags(imageName, taggingStrategy, context, lastCommittedAt, time
     }
     else if (taggingStrategy === 'semver_datetime') {
         const datetime = luxon_1.DateTime.fromSeconds(lastCommittedAt, { zone: timeZone });
-        return [`${imageName}:1.0.0-${datetime.toFormat('yyyyMMddHHmmss')}`];
+        return [`${imageName}:0.0.${datetime.toFormat('yyyyMMddHHmmss')}`];
     }
     else if (taggingStrategy === 'pull_request') {
         return [`${imageName}:pr-${context.payload.pull_request?.number}`];
