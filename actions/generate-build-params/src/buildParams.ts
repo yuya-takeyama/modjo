@@ -11,11 +11,20 @@ const IdentitySchema = z.object({
   }),
 });
 
+const RegistrySchema = z.object({
+  aws: z.object({
+    type: z.enum(['private', 'public']).default('private').optional(),
+    region: z.string(),
+    'repository-base': z.string(),
+  }),
+});
+
 const BuildParamsDockerSchema = z.object({
   context: z.string(),
   tags: z.string(),
   platforms: z.string(),
   identity: IdentitySchema,
+  registry: RegistrySchema,
 });
 
 const TargetSchema = z
@@ -80,6 +89,7 @@ export function generateBuildParams(
             ).join(','),
             platforms: build.docker!.platforms.join(','),
             identity,
+            registry,
           },
         },
       });
