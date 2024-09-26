@@ -1,3 +1,5 @@
-# mobb
+# modjo
 
-Building blocks for monorepo build pipelines for minimalists
+Modular building block and framework for Monorepo CD jobs
+
+**Pronunciation**: /ˈmoʊ.dʒoʊ/ (same as "mojo")

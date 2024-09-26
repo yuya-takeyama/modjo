@@ -1,5 +1,5 @@
 {
-  "name": "mobb",
+  "name": "modjo",
   "private": true,
   "workspaces": [
     "actions/*",

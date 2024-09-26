@@ -62,19 +62,19 @@ exports[`loadloadGlobalConfig should load valid config file 1`] = `
       "identities": {
         "prd": {
           "aws": {
-            "iam-role": "arn:aws:iam::920373013500:role/mobb-builder",
+            "iam-role": "arn:aws:iam::920373013500:role/modjo-builder",
             "region": "ap-northeast-1",
           },
         },
         "stg-main": {
           "aws": {
-            "iam-role": "arn:aws:iam::615299752259:role/mobb-builder-main",
+            "iam-role": "arn:aws:iam::615299752259:role/modjo-builder-main",
             "region": "ap-northeast-1",
           },
         },
         "stg-pr": {
           "aws": {
-            "iam-role": "arn:aws:iam::615299752259:role/mobb-builder-pr",
+            "iam-role": "arn:aws:iam::615299752259:role/modjo-builder-pr",
             "region": "ap-northeast-1",
           },
         },
@@ -84,21 +84,21 @@ exports[`loadloadGlobalConfig should load valid config file 1`] = `
           "aws": {
             "identity": "prd",
             "region": "ap-northeast-1",
-            "repository-base": "920373013500.dkr.ecr.ap-northeast-1.amazonaws.com/mobb",
+            "repository-base": "920373013500.dkr.ecr.ap-northeast-1.amazonaws.com/modjo",
           },
         },
         "stg-main": {
           "aws": {
             "identity": "stg-main",
             "region": "ap-northeast-1",
-            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb",
+            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/modjo",
           },
         },
         "stg-pr": {
           "aws": {
             "identity": "stg-pr",
             "region": "ap-northeast-1",
-            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/mobb-pr",
+            "repository-base": "615299752259.dkr.ecr.ap-northeast-1.amazonaws.com/modjo-pr",
           },
         },
       },
