@@ -1,5 +1,5 @@
 {
-  "name": "@mobb/generate-build-docker-params",
+  "name": "@modjo/generate-build-docker-params",
   "license": "MIT",
   "jest": {
     "preset": "ts-jest",
